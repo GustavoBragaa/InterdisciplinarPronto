@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "994144489369",
+    "firebase_url": "https://interdisciplinar-4006c.firebaseio.com",
+    "project_id": "interdisciplinar-4006c",
+    "storage_bucket": "interdisciplinar-4006c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994144489369:android:a4d74beebd985e6f",
+        "android_client_info": {
+          "package_name": "com.example.gusta.interdisciplina01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994144489369-mrh27cghdpf1bmdn1ea9hk327nd4up2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gusta.interdisciplina01",
+            "certificate_hash": "c5cd434da56947e4fdfff31d95c5075d34e3d63e"
+          }
+        },
+        {
+          "client_id": "994144489369-gd5lvos3r3jj92ccmnsedrqomq1kr8ej.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "994144489369-gd5lvos3r3jj92ccmnsedrqomq1kr8ej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1VB0pep5CFXSi6blsc0pc8BtyVR_oCKI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994144489369-gd5lvos3r3jj92ccmnsedrqomq1kr8ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

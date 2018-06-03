@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MSAnswer</string>
+    <string name="facebook_app_id">183766315779594</string>
+    <string name="fb_login_protocol_scheme">812b274835f3eab92b78798fd782ea6c</string>
 </resources>

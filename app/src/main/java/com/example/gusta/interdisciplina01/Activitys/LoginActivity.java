@@ -13,6 +13,12 @@ import android.widget.Toast;
 import com.example.gusta.interdisciplina01.DAO.FireBase;
 import com.example.gusta.interdisciplina01.Entidades.Usuarios;
 import com.example.gusta.interdisciplina01.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvCadastrar;
     private FirebaseAuth autenticacao;
     private Usuarios usuarios;
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
 
 
     @Override
@@ -83,7 +91,50 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
+
+        // Autenticação com facebook
+        callbackManager = CallbackManager.Factory.create();
+
+        final boolean loggedIn = AccessToken.getCurrentAccessToken() != null;
+        if (loggedIn) {
+            logar();
+        }
+
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("email");
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                logar();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Toast.makeText(LoginActivity.this, "Aconteceu um erro inesperado, reinicie o App!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
+    private void logar() {
+        Intent novaIntent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(novaIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     //autenticação de email e senha
     private void validarLogin() {
@@ -93,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    ChamarMain();
+                    logar();
                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
 
@@ -103,12 +154,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void ChamarMain() {
-
-        Intent ChamaMain = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(ChamaMain);
     }
 
 

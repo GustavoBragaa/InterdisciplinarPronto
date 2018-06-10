@@ -2,11 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gusta.interdisciplina01">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--
+     As permissões ACCESS_COARSE / FINE_LOCATION não precisam usar
+     Google Maps Android API v2, mas você deve especificar grosseiro ou multa
+     permissões de localização para a funcionalidade 'MyLocation'.
+     -->
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="MSAnswer"
@@ -21,26 +27,43 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Activitys.MainActivity" />
-        <activity android:name=".Activitys.NewUserActivity"></activity>
+        <activity android:name=".Activitys.NewUserActivity" />
+        <!--
+             A chave da API para APIs baseadas no Google Maps é definida como um recurso de string.
+             (Veja o arquivo "res / values ​​/ google_maps_api.xml").
+             Observe que a chave da API está vinculada à chave de criptografia usada para assinar o APK.
+             Você precisa de uma chave de API diferente para cada chave de criptografia, incluindo a chave de liberação usada para
+             Assine o APK para publicação.
+             Você pode definir as chaves para os destinos de depuração e liberação em src / debug / e src / release /.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".Activitys.MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

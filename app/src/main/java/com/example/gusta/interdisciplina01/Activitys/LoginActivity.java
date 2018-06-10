@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +22,11 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
     //Atributos
@@ -32,8 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvCadastrar;
     private FirebaseAuth autenticacao;
     private Usuarios usuarios;
-    private CallbackManager callbackManager;
     private LoginButton loginButton;
+    private CallbackManager mCallbackManager;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -94,47 +99,81 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Autenticação com facebook
-        callbackManager = CallbackManager.Factory.create();
-
-        final boolean loggedIn = AccessToken.getCurrentAccessToken() != null;
-        if (loggedIn) {
-            logar();
-        }
+        mCallbackManager = CallbackManager.Factory.create();
+        mAuth = FirebaseAuth.getInstance();
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email");
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginButton.setReadPermissions("email", "public_profile");
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
                 logar();
+
             }
 
             @Override
             public void onCancel() {
-                // App code
+                Toast.makeText(LoginActivity.this, "Operação cancelada!", Toast.LENGTH_SHORT).show();
+
+
             }
 
             @Override
-            public void onError(FacebookException exception) {
+            public void onError(FacebookException error) {
                 Toast.makeText(LoginActivity.this, "Aconteceu um erro inesperado, reinicie o App!", Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
+
     }
 
-    private void logar() {
-        Intent novaIntent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(novaIntent);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    public void updateUI(FirebaseUser currentUser) {
+        if (currentUser != null)
+            logar();
+    }
+
+
+    private void handleFacebookAccessToken(AccessToken token) {
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Falha na autenticação.",
+                                    Toast.LENGTH_SHORT).show();
+
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
 
     //autenticação de email e senha
     private void validarLogin() {
@@ -156,6 +195,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    // Metodo para chamar outra activity
+    private void logar() {
+        Intent novaIntent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(novaIntent);
+    }
 
 }
 

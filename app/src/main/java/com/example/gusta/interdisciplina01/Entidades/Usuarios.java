@@ -12,6 +12,7 @@ public class Usuarios {
     private String email;
     private String senha;
     private String nome;
+    private int idade;
 
     public Usuarios() {
 
@@ -29,6 +30,7 @@ public class Usuarios {
         hasMapUsuario.put("email", getEmail());
         hasMapUsuario.put("senha", getSenha());
         hasMapUsuario.put("nome", getNome());
+        hasMapUsuario.put("idade", getIdade());
 
         return hasMapUsuario;
     }
@@ -65,4 +67,11 @@ public class Usuarios {
         this.nome = nome;
     }
 
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
 }

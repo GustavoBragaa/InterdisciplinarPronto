@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,11 +16,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.gusta.interdisciplina01.Manifest;
 import com.example.gusta.interdisciplina01.R;
 import com.facebook.internal.Utility;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,201 +34,104 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     //Atributos
     private GoogleMap mMap;
     private Marker currentLocationMarker;
     private LatLng currentLocationLatiLong;
+    private Button btnVoltar;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private boolean retorno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         //Obtenha o SupportMapFragment e seja notificado quando o mapa estiver pronto para ser usado.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        retorno = com.example.gusta.interdisciplina01.Util.Utility.checkPermission(MapsActivity.this);
 
-        startGettingLocations();
+        if (retorno) {
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
 
+
+        }
+        btnVoltar = (Button) findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Voltar = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(Voltar);
+            }
+        });
 
     }
 
-    // Metodo de Localização Madelane Sofia
+    // Permissão para usar GPS
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case com.example.gusta.interdisciplina01.Util.Utility.MY_PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                            .findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(this);
+                } else {
+                    Toast.makeText(MapsActivity.this, "Problemas durante a permissão de uso do GPS.",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Instanciando variavel
         mMap = googleMap;
 
-        //Adicionar um marcador no ColegioMadalenaSofia e mover a câmera
-        LatLng ColegioMadalenaSofia = new LatLng(-25.412121, -49.214714);
-        //Marcador
-        mMap.addMarker(new MarkerOptions().position(ColegioMadalenaSofia).title("Madalena Sofia"));
-        //Adicionando detalhes de zoom
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).target(ColegioMadalenaSofia).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-    }
+        if (com.example.gusta.interdisciplina01.Util.Utility.checkPermission(MapsActivity.this)) {
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                                List<Address> addresses = null;
+                                try {
 
-    //Metodo de Localização atual
-    @Override
-    public void onLocationChanged(Location location) {
-        //Se ja exixstir um marcador, remova
-        if (currentLocationLatiLong != null) {
-            currentLocationMarker.remove();
-        }
-
-        //Adicionando Marcador
-        //Pegando Latitude e Longitude, e colocando dentro do objeto
-        currentLocationLatiLong = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        //Atualizando Posição
-        markerOptions.position(currentLocationLatiLong);
-        //Adicionando um titulo
-        markerOptions.title("Localização atual");
-        //Alterando detalhes do marcador "COR"
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        currentLocationMarker = mMap.addMarker(markerOptions);
-
-
-        //Centralizando marcador
-        CameraPosition cameraPositions = new CameraPosition.Builder().zoom(15).target(currentLocationLatiLong).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPositions));
-
-        //Menssagem
-        Toast.makeText(this, "Sua Localização foi  Atualizada", Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    private ArrayList findUnAskedPermissions(ArrayList<String> wanted) {
-        ArrayList result = new ArrayList();
-
-        for (String perm : wanted) {
-            if (!hasPermission(perm)) {
-                result.add(perm);
-            }
-        }
-
-        return result;
-    }
-
-    private boolean canAskPermission() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-    }
-
-    private boolean hasPermission(String permission) {
-        if (canAskPermission()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
-            }
-        }
-        return true;
-    }
-
-    public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("GPS desativado!");
-        alertDialog.setMessage("Ativar GPS?");
-        alertDialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        });
-
-        alertDialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                finish();
-            }
-        });
-
-        alertDialog.show();
-    }
-
-    private void startGettingLocations() {
-
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        boolean isGPS = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        boolean isNetwork = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        boolean canGetLocation = true;
-        int ALL_PERMISSIONS_RESULT = 101;
-        long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;// Distance in meters
-        long MIN_TIME_BW_UPDATES = 10000 * 10;// Time in milliseconds
-
-        ArrayList<String> permissions = new ArrayList<>();
-        ArrayList<String> permissionsToRequest;
-
-        permissions.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        permissions.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        permissionsToRequest = findUnAskedPermissions(permissions);
-
-        //Check if GPS and Network are on, if not asks the user to turn on
-        if (!isGPS && !isNetwork) {
-            showSettingsAlert();
-        } else {
-            // check permissions
-
-            // check permissions for later versions
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (permissionsToRequest.size() > 0) {
-                    requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),
-                            ALL_PERMISSIONS_RESULT);
-                    canGetLocation = false;
-                }
-            }
-        }
-
-
-        //Checks if FINE LOCATION and COARSE Location were granted
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-            Toast.makeText(this, "Permissão negada", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        //Starts requesting location updates
-        if (canGetLocation) {
-            if (isGPS) {
-                lm.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-            } else if (isNetwork) {
-                // from Network Provider
-
-                lm.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
-            }
-        } else {
-            Toast.makeText(this, "Não é possível obter a localização", Toast.LENGTH_SHORT).show();
+                                    //Adicionando Marcador
+                                    //Pegando Latitude e Longitude, e colocando dentro do objeto
+                                    currentLocationLatiLong = new LatLng(location.getLatitude(), location.getLongitude());
+                                    MarkerOptions markerOptions = new MarkerOptions();
+                                    //Atualizando Posição
+                                    markerOptions.position(currentLocationLatiLong);
+                                    //Adicionando um titulo
+                                    markerOptions.title("Sua Localização atual");
+                                    //Alterando detalhes do marcador "COR"
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                                    currentLocationMarker = mMap.addMarker(markerOptions);
+                                    // Localizacao do Madalena Sofia
+                                    LatLng ColegioMadalenaSofia = new LatLng(-25.412121, -49.214714);
+                                    mMap.addMarker(new MarkerOptions().position(ColegioMadalenaSofia).title("Madalena Sofia"));
+                                    //Adicionando zoom
+                                    CameraPosition cameraPositions = new CameraPosition.Builder().zoom(15).target(currentLocationLatiLong).build();
+                                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPositions));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
         }
     }
 
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }

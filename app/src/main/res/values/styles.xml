@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyEditTextTheme">
+        <item name="colorControlNormal">#FFFFFFFF</item>
+        <item name="colorControlActivated">#cccccc</item>
+        <item name="colorAccent">#FFFFFFFF</item>
+    </style>
 </resources>

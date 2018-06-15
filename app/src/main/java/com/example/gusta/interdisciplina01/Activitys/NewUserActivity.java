@@ -137,7 +137,7 @@ public class NewUserActivity extends AppCompatActivity {
 
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        erroExcecao = "Por favor, Digite uma senha mais forte, com pelo menos 8 caracteres!";
+                        erroExcecao = "Por favor, Digite uma senha mais forte";
 
                     } catch (FirebaseAuthInvalidCredentialsException e) {
                         erroExcecao = "O email digitado é invalido, digite um novo email!";

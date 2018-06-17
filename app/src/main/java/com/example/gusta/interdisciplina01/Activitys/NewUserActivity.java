@@ -36,7 +36,7 @@ public class NewUserActivity extends AppCompatActivity {
     private EditText editConfirSenha;
     private EditText editIdade;
     private Button btCadastrar;
-    private Usuarios usuarios;
+    private Usuarios usuariosNovos, usuarios;
     private FirebaseAuth autenticacao;
     private DatabaseReference firebase;
 
@@ -71,23 +71,22 @@ public class NewUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(NewUserActivity.this, " Por favor, Aguarde!", Toast.LENGTH_SHORT).show();
-                if (!editNome.getText().toString().equals("") && !editEmail.getText().toString().equals("") && !editSenha.getText().toString().equals("") && editSenha.getText().toString().equals(editConfirSenha.getText().toString())) {
-                    usuarios = new Usuarios();
+                if (!editNome.getText().toString().equals("") && !editEmail.getText().toString().equals("") && !editSenha.getText().toString().equals("") && !editSenha.getText().toString().equals("") && editSenha.getText().toString().equals(editConfirSenha.getText().toString())) {
+                    usuariosNovos = new Usuarios();
 
                     String id = UUID.randomUUID().toString();
 
 
-                    usuarios.setId(id);
-                    usuarios.setNome(editNome.getText().toString());
-                    usuarios.setIdade(Integer.parseInt(editIdade.getText().toString()));
-                    usuarios.setEmail(EncodeString(editEmail.getText().toString()));
-                    usuarios.setSenha(editSenha.getText().toString());
+                    usuariosNovos.setId(id);
+                    usuariosNovos.setNome(editNome.getText().toString());
+                    usuariosNovos.setIdade(Integer.parseInt(editIdade.getText().toString()));
+                    usuariosNovos.setEmail(EncodeString(editEmail.getText().toString()));
+                    usuariosNovos.setSenha(editSenha.getText().toString());
 
 
-                    salvaDados(usuarios);
 
-                    cadastrarUsuario(id);
 
+                    cadastrarUsuario(usuariosNovos);
 
 
                 } else
@@ -97,51 +96,41 @@ public class NewUserActivity extends AppCompatActivity {
 
     }
 
-    // Salvando dados no banco de dados
-    private boolean salvaDados(Usuarios usuarios) {
-        try {
-
-
-            firebase = FireBase.getFireBase().child("Usuarios");
-            firebase.child(usuarios.getId()).setValue(usuarios);
-
-
-
-
-            return true;
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     //Cadastrando usuarios
-    private void cadastrarUsuario(final String id) {
+    private void cadastrarUsuario(final Usuarios usuariosNovos) {
 
         autenticacao = FireBase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
-                DencodeString(usuarios.getEmail()),
-                usuarios.getSenha()).addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
+                DencodeString(usuariosNovos.getEmail()),
+                usuariosNovos.getSenha()).addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 //Se der certo a criação
                 if (task.isSuccessful()) {
                     Toast.makeText(NewUserActivity.this, "Usuario Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                    String identificadorUsuario = Base64Custom.codificarbase64(usuarios.getEmail());
+                    String identificadorUsuario = Base64Custom.codificarbase64(usuariosNovos.getEmail());
                     FirebaseUser usuarioFirebase = task.getResult().getUser();
-                    usuarios.setId(identificadorUsuario);
-                    usuarios.salvar();
+                    usuariosNovos.setId(identificadorUsuario);
+                    usuariosNovos.salvar();
+
+
 
                     Preferencias preferencias = new Preferencias(NewUserActivity.this);
-                    preferencias.gravarUsuarioPreferencias(identificadorUsuario, usuarios.getNome());
+                    preferencias.gravarUsuarioPreferencias(identificadorUsuario, usuariosNovos.getNome());
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id", id);
+
+                    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                    String user = currentFirebaseUser.getUid();
+
+
+                    firebase = FireBase.getFireBase().child("Usuarios");
+                    firebase.child(user).setValue(usuariosNovos);
+
+
                     Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
-                    intent.putExtras(bundle);
                     startActivity(intent);
 
 
@@ -176,8 +165,6 @@ public class NewUserActivity extends AppCompatActivity {
 
         });
     }
-
-
 
 
     public static String EncodeString(String string) {

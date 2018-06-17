@@ -4,76 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.MainActivity2"
+    tools:context=".Activitys.AlterandoDadosActivity"
     android:background="@color/Fundo">
 
-    <TextView
+
+    <EditText
+        android:id="@+id/editNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp"
-        android:fontFamily="@font/advent_pro_extralight"
-        android:text="Selecione uma função abaixo:"
+        android:layout_marginTop="166dp"
+        android:ems="10"
+        android:fontFamily="@font/advent_pro_light"
+        android:hint="Nome"
+        android:inputType="textPersonName"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColorHint="#FFFFFF"
+        android:theme="@style/MyEditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.08" />
+        tools:layout_editor_absoluteY="107dp" />
 
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:background="@color/Fundo"
-        android:fontFamily="@font/advent_pro_extralight"
-        android:onClick="sair"
-        android:text="Sair"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btMaps"
-        android:layout_width="200dp"
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="158dp"
-        android:background="@color/Fundo"
+        android:layout_marginTop="51dp"
         android:fontFamily="@font/advent_pro_extralight"
-        android:text="Localizar Instituição"
+        android:text="Insira os Novos Dados"
         android:textColor="#FFFFFF"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="135dp" />
+        tools:layout_editor_absoluteY="45dp" />
 
+    <EditText
+        android:id="@+id/editIdade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ems="10"
+        android:fontFamily="@font/advent_pro_light"
+        android:hint="Idade"
+        android:inputType="number"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:theme="@style/MyEditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="153dp" />
 
     <Button
-        android:id="@+id/btNuvem"
+        android:id="@+id/btAtualizar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="203dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="117dp"
         android:background="@color/Fundo"
         android:fontFamily="@font/advent_pro_extralight"
-        android:text="Enviar Imagem"
+        android:text="Atualizar"
         android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="220dp" />
-
-
-
+        tools:layout_editor_absoluteY="355dp"
+        />
 
 </RelativeLayout>

@@ -206,5 +206,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent novaIntent = new Intent(LoginActivity.this, MainActivity2.class);
         startActivity(novaIntent);
     }
+
+
 }
 

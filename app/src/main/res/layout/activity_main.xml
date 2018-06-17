@@ -82,7 +82,7 @@
         android:layout_marginBottom="185dp"
         android:background="@color/Fundo"
         android:fontFamily="@font/advent_pro_extralight"
-        android:text="Enviar/Receber Arquivos"
+        android:text="Enviar Imagem"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

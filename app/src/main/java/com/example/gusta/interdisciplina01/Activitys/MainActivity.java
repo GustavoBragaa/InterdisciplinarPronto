@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btMaps,btNuvem, btDados;
+    private Button btMaps, btNuvem, btDados;
 
 
     @Override
@@ -28,32 +28,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.facebook.samples.hellofacebook",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("guga:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {
-
-        }
         //Pegando id e chamando activity
         btMaps = (Button) findViewById(R.id.btMaps);
         btMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ChamaMaps = new Intent(MainActivity.this,MapsActivity.class);
+                Intent ChamaMaps = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(ChamaMaps);
             }
         });
-
-        Intent intent = getIntent();
-        final String retornara = intent.getStringExtra("id");
 
 
         //Pegando id e chamando activity
@@ -62,16 +46,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("id", retornara);
-                Intent ChamaDados = new Intent(MainActivity.this,MostraDadosActivity.class);
-                ChamaDados.putExtras(bundle);
+                Intent ChamaDados = new Intent(MainActivity.this, MostraDadosActivity.class);
                 startActivity(ChamaDados);
 
                 startActivity(ChamaDados);
             }
         });
-
 
 
         //Pegando id e chamando activity
@@ -79,11 +59,10 @@ public class MainActivity extends AppCompatActivity {
         btNuvem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ChamaMaps = new Intent(MainActivity.this,NuvemActivity.class);
+                Intent ChamaMaps = new Intent(MainActivity.this, NuvemActivity.class);
                 startActivity(ChamaMaps);
             }
         });
-
 
 
     }

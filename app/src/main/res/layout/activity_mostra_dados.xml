@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.MostraDadosActivity">
+    tools:context=".Activitys.MostraDadosActivity"
+    android:background="@color/Fundo">
 
     <TextView
         android:id="@+id/txt1"
@@ -12,8 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="142dp"
+        android:layout_marginTop="128dp"
+        android:fontFamily="@font/advent_pro_extralight"
+        android:shadowColor="@android:color/background_light"
         android:text="TextView"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="117dp" />
@@ -22,10 +27,63 @@
         android:id="@+id/txt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="234dp"
+        android:layout_marginTop="188dp"
+        android:fontFamily="@font/advent_pro_extralight"
+        android:shadowColor="@android:color/background_light"
         android:text="TextView"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
         tools:layout_editor_absoluteX="165dp"
         tools:layout_editor_absoluteY="151dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        android:fontFamily="@font/advent_pro_extralight"
+        android:shadowColor="@android:color/background_light"
+        android:text="Dados do Usuario"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/advent_pro_extralight"
+        android:shadowColor="@android:color/background_light"
+        android:text="TextView"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="195dp"
+        android:fontFamily="@font/advent_pro_extralight"
+        android:shadowColor="@android:color/background_light"
+        android:text="TextView"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btAlteraDados"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:text="Alterar meus Dados"
+        android:background="@color/Fundo"
+        android:fontFamily="@font/advent_pro_extralight"        android:textColor="#FFFFFF"
+        android:textSize="18sp"/>
 </RelativeLayout>

@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gusta.interdisciplina01">
 
-    <!--
-   As permissões ACCESS_COARSE / FINE_LOCATION não precisam usar
-   Google Maps Android API v2, mas você deve especificar grosseiro ou multa
-   permissões de localização para a funcionalidade 'MyLocation'.
-    -->
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -50,14 +44,13 @@
         </activity>
         <activity android:name=".Activitys.MainActivity" />
         <activity android:name=".Activitys.NewUserActivity" />
-        <!--
-             A chave da API para APIs baseadas no Google Maps é definida como um recurso de string.
-             (Veja o arquivo "res / values ​​/ google_maps_api.xml").
-             Observe que a chave da API está vinculada à chave de criptografia usada para assinar o APK.
-             Você precisa de uma chave de API diferente para cada chave de criptografia, incluindo a chave de liberação usada para
-             Assine o APK para publicação.
-             Você pode definir as chaves para os destinos de depuração e liberação em src / debug / e src / release /.
-        -->
+        <activity
+            android:name=".Activitys.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".Activitys.MostraDadosActivity" />
+        <activity android:name=".Activitys.NuvemActivity" />
+        <activity android:name=".Activitys.MainActivity2" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -65,12 +58,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".Activitys.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".Activitys.MostraDadosActivity" />
-        <activity android:name=".Activitys.NuvemActivity" />
-        <activity android:name=".Activitys.MainActivity2"></activity>
+        <activity android:name=".Activitys.AlterandoDadosActivity"></activity>
     </application>
 
 </manifest>

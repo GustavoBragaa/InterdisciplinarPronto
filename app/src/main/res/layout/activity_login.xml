@@ -13,26 +13,32 @@
         android:id="@+id/editEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/editSenha"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="173dp"
+        android:layout_marginBottom="-185dp"
         android:ems="10"
         android:fontFamily="@font/advent_pro_light"
         android:hint="E-mail"
+        android:textColor="#FFFFFF"
         android:inputType="textEmailAddress"
         android:textColorHint="#FFFFFF"
-        android:theme="@style/MyEditTextTheme" />
+        android:theme="@style/MyEditTextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="198dp" />
 
 
     <EditText
         android:id="@+id/editSenha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editEmail"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="185dp"
         android:ems="10"
         android:fontFamily="@font/advent_pro_light"
         android:hint="Senha"
+        android:textColor="#FFFFFF"
         android:inputType="textPassword"
         android:textColorHint="#FFFFFF"
         android:theme="@style/MyEditTextTheme"
@@ -44,14 +50,18 @@
         android:id="@+id/btLogar"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editSenha"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        android:layout_marginBottom="210dp"
         android:background="@color/Fundo"
         android:fontFamily="@font/advent_pro_extralight"
         android:text="Logar"
         android:textColor="#FFFFFF"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="304dp" />
 
     <TextView
         android:id="@+id/tvCadastrar"
@@ -77,7 +87,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="114dp" />
+        android:layout_marginBottom="107dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="414dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -85,12 +98,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="47dp"
         android:fontFamily="@font/advent_pro_light"
         android:text="MSAnswer"
         android:textAllCaps="false"
         android:textColor="@android:color/background_light"
-        android:textSize="50sp" />
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="71dp" />
 
 
 </RelativeLayout>

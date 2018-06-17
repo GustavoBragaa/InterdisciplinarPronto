@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                logar();
+                logar2();
 
             }
 
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -198,8 +198,13 @@ public class LoginActivity extends AppCompatActivity {
     // Metodo para chamar outra activity
     private void logar() {
         Intent novaIntent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(novaIntent);
+              startActivity(novaIntent);
     }
 
+    // Metodo para chamar outra activity
+    private void logar2() {
+        Intent novaIntent = new Intent(LoginActivity.this, MainActivity2.class);
+        startActivity(novaIntent);
+    }
 }
 

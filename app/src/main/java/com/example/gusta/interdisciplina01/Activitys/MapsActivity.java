@@ -64,14 +64,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         }
-        btnVoltar = (Button) findViewById(R.id.btnVoltar);
-        btnVoltar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent Voltar = new Intent(MapsActivity.this, MainActivity.class);
-                startActivity(Voltar);
-            }
-        });
+//        btnVoltar = (Button) findViewById(R.id.btnVoltar);
+//        btnVoltar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent Voltar = new Intent(MapsActivity.this, MainActivity.class);
+//                startActivity(Voltar);
+//            }
+//        });
 
     }
 

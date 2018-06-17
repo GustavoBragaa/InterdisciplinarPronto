@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.UUID;
+
 public class NewUserActivity extends AppCompatActivity {
     //Declarando Atributos
     private EditText editNome;
@@ -72,6 +74,10 @@ public class NewUserActivity extends AppCompatActivity {
                 if (!editNome.getText().toString().equals("") && !editEmail.getText().toString().equals("") && !editSenha.getText().toString().equals("") && editSenha.getText().toString().equals(editConfirSenha.getText().toString())) {
                     usuarios = new Usuarios();
 
+                    String id = UUID.randomUUID().toString();
+
+
+                    usuarios.setId(id);
                     usuarios.setNome(editNome.getText().toString());
                     usuarios.setIdade(Integer.parseInt(editIdade.getText().toString()));
                     usuarios.setEmail(EncodeString(editEmail.getText().toString()));
@@ -80,7 +86,8 @@ public class NewUserActivity extends AppCompatActivity {
 
                     salvaDados(usuarios);
 
-                    cadastrarUsuario();
+                    cadastrarUsuario(id);
+
 
 
                 } else
@@ -90,12 +97,15 @@ public class NewUserActivity extends AppCompatActivity {
 
     }
 
+    // Salvando dados no banco de dados
     private boolean salvaDados(Usuarios usuarios) {
         try {
 
 
             firebase = FireBase.getFireBase().child("Usuarios");
-            firebase.child(usuarios.getEmail()).setValue(usuarios);
+            firebase.child(usuarios.getId()).setValue(usuarios);
+
+
 
 
             return true;
@@ -107,7 +117,8 @@ public class NewUserActivity extends AppCompatActivity {
         }
     }
 
-    private void cadastrarUsuario() {
+    //Cadastrando usuarios
+    private void cadastrarUsuario(final String id) {
 
         autenticacao = FireBase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
@@ -127,7 +138,12 @@ public class NewUserActivity extends AppCompatActivity {
                     Preferencias preferencias = new Preferencias(NewUserActivity.this);
                     preferencias.gravarUsuarioPreferencias(identificadorUsuario, usuarios.getNome());
 
-                    abrirLogin();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", id);
+                    Intent intent = new Intent(NewUserActivity.this, MainActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
 
                 } else {
 
@@ -152,10 +168,9 @@ public class NewUserActivity extends AppCompatActivity {
                         erroExcecao = "Erro ao Efetuar cadastro";
                         e.printStackTrace();
 
-
-                        Toast.makeText(NewUserActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_SHORT).show();
-
                     }
+
+                    Toast.makeText(NewUserActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -163,10 +178,7 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
 
-    public void abrirLogin() {
-        Intent intent = new Intent(NewUserActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
+
 
     public static String EncodeString(String string) {
         return string.replace(".", ",");

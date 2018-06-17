@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.MainActivity"
+    tools:context=".Activitys.MainActivity2"
     android:background="@color/Fundo">
 
     <TextView
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="158dp"
         android:background="@color/Fundo"
         android:fontFamily="@font/advent_pro_extralight"
         android:text="Localizar Instituição"
@@ -57,21 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="135dp" />
 
-    <Button
-        android:id="@+id/btDados"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
-        android:background="@color/Fundo"
-        android:fontFamily="@font/advent_pro_extralight"
-        android:text="Meus Dados"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="220dp" />
-
 
     <Button
         android:id="@+id/btNuvem"
@@ -79,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="185dp"
+        android:layout_marginBottom="203dp"
         android:background="@color/Fundo"
         android:fontFamily="@font/advent_pro_extralight"
         android:text="Enviar/Receber Arquivos"

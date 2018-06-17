@@ -18,15 +18,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity2 extends AppCompatActivity {
     private Button btMaps,btNuvem, btDados;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
+
 
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         btMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ChamaMaps = new Intent(MainActivity.this,MapsActivity.class);
+                Intent ChamaMaps = new Intent(MainActivity2.this,MapsActivity.class);
                 startActivity(ChamaMaps);
             }
         });
@@ -56,21 +55,6 @@ public class MainActivity extends AppCompatActivity {
         final String retornara = intent.getStringExtra("id");
 
 
-        //Pegando id e chamando activity
-        btDados = (Button) findViewById(R.id.btDados);
-        btDados.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("id", retornara);
-                Intent ChamaDados = new Intent(MainActivity.this,MostraDadosActivity.class);
-                ChamaDados.putExtras(bundle);
-                startActivity(ChamaDados);
-
-                startActivity(ChamaDados);
-            }
-        });
 
 
 
@@ -79,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         btNuvem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ChamaMaps = new Intent(MainActivity.this,NuvemActivity.class);
+                Intent ChamaMaps = new Intent(MainActivity2.this,NuvemActivity.class);
                 startActivity(ChamaMaps);
             }
         });
@@ -90,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void sair(View v) {
         AccessToken.setCurrentAccessToken(null);
-        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent loginIntent = new Intent(MainActivity2.this, LoginActivity.class);
         FirebaseAuth.getInstance().signOut();
         startActivity(loginIntent);
         finish();
     }
 }
+
+
